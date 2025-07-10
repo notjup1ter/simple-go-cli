@@ -28,9 +28,12 @@ var addTaskCmd = &cobra.Command{
 			fmt.Println("Could not read the input.")
 			return
 		}
+		
+		//remove any excess whitespace
 		task = strings.TrimSpace(task)
 		taskList := []string{task}
 		
+		//O_append means all new writes are appened at the end, O_WRONLY is write-only" 
 		f, err := os.OpenFile(GetFilePath(), os.O_APPEND|os.O_WRONLY, 0644)
 		if err != nil {
 			fmt.Println("Could not open file at" + GetFilePath())
