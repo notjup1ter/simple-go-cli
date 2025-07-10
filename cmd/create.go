@@ -22,7 +22,7 @@ var createCmd = &cobra.Command{
 	The csv file will always be stored in the user's home directory.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		
-		file, err := os.Create(GetFilePath())
+		file, err := os.OpenFile(GetFilePath(), os.O_RDWR| os.O_CREATE, 0644)
 		if err != nil {
 			fmt.Println("Error while trying to create file.")
 		}
