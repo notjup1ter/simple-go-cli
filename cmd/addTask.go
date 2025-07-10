@@ -8,7 +8,9 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -31,8 +33,12 @@ var addTaskCmd = &cobra.Command{
 		
 		//remove any excess whitespace
 		task = strings.TrimSpace(task)
-		taskList := []string{task}
-		
+
+	 	y, m , d := time.Now().Date()
+		curr_date :=  strconv.Itoa(y) + " " + m.String() + " " + strconv.Itoa(d)
+
+		taskList := []string{task, "not completed", curr_date}
+
 		//O_append means all new writes are appened at the end, O_WRONLY is write-only" 
 		f, err := os.OpenFile(GetFilePath(), os.O_APPEND|os.O_WRONLY, 0644)
 		if err != nil {
