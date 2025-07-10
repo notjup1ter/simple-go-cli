@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"os"
 
+	"encoding/csv"
+
 	"github.com/spf13/cobra"
 )
 
@@ -25,6 +27,19 @@ var createCmd = &cobra.Command{
 			fmt.Println("Error while trying to create file.")
 		}
 		defer file.Close()
+
+		//initalizing the headers
+		headers := []string{"Descrition", "Status", "Date Added"}
+		writer := csv.NewWriter(file)
+
+		err = writer.Write(headers)
+		if err != nil {
+			fmt.Println("Could not add the headers to the CSV file.")
+		}
+		defer writer.Flush()
+		fmt.Println("New CSV file has been initalized.")
+
+
 	},
 }
 
