@@ -1,5 +1,5 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyrig()ht © 2025 NAME HERE <EMAIL ADDRESS>
 */
 package cmd
 
@@ -73,11 +73,7 @@ var statusCmd = &cobra.Command{
 		}
 
 		//overwriting the file 
-		f, err = os.Create(GetFilePath())
-		if err != nil {
-			fmt.Println("Could not overwrite the file.")
-		}
-		defer f.Close()
+		InitializeCSV()
 
 		writer := csv.NewWriter(f)
 		err = writer.WriteAll(tasks)

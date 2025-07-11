@@ -5,9 +5,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-
-	"encoding/csv"
 
 	"github.com/spf13/cobra"
 )
@@ -22,21 +19,7 @@ var createCmd = &cobra.Command{
 	The csv file will always be stored in the user's home directory.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		
-		file, err := os.OpenFile(GetFilePath(), os.O_RDWR| os.O_CREATE, 0644)
-		if err != nil {
-			fmt.Println("Error while trying to create file.")
-		}
-		defer file.Close()
-
-		//initalizing the headers
-		headers := []string{"Descrition", "Status", "Date Added"}
-		writer := csv.NewWriter(file)
-
-		err = writer.Write(headers)
-		if err != nil {
-			fmt.Println("Could not add the headers to the CSV file.")
-		}
-		defer writer.Flush()
+		InitializeCSV()
 		fmt.Println("New CSV file has been initalized.")
 
 
