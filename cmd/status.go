@@ -15,13 +15,25 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var CFlag bool
+var NCFlag bool
 // ncompleteCmd represents the ncomplete command
-var ncompleteCmd = &cobra.Command{
-	Use:   "ncomplete",
-	Short: "Marks a task as incomplete.",
-	Long: "",
+var statusCmd = &cobra.Command{
+	Use:   "status",
+	Short: "Updates a task's status. -c or -nc required",
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		//validate flags
+		if CFlag && NCFlag {
+			fmt.Println("Cannot use both flags at once")
+			os.Exit(1)
+		}
+		if !CFlag && !NCFlag {
+			fmt.Println("Please make sure to use -c for completed or -nc for not completed")
+			return
+		}
+
+
 		//gather user input
 		inputReader := bufio.NewReader(os.Stdin)
 		fmt.Println("Enter the number of the task you would like to update below:")
@@ -53,8 +65,10 @@ var ncompleteCmd = &cobra.Command{
 		}
 
 		for rowIndex := range tasks {
-			if rowIndex == inputInt {
+			if rowIndex == inputInt && NCFlag {
 				tasks[rowIndex][1] = "not completed"
+			} else if rowIndex == inputInt && CFlag {
+				tasks[rowIndex][1] = "completed ✅"
 			}
 		}
 
@@ -68,17 +82,19 @@ var ncompleteCmd = &cobra.Command{
 		writer := csv.NewWriter(f)
 		err = writer.WriteAll(tasks)
 		if err != nil {
-			fmt.Println("Could not update task as not completed")
+			fmt.Println("Could not update task status")
 			return
 		}
 		defer writer.Flush()
-		fmt.Println("successfully marked task as not completed")
+		fmt.Println("successfully updated task's status!")
 
 	},
 }
 
 func init() {
-	updateTaskCmd.AddCommand(ncompleteCmd)
+	updateTaskCmd.AddCommand(statusCmd)
+	statusCmd.Flags().BoolVarP(&CFlag, "completed", "c", false, "marks tasks as completed")
+	statusCmd.Flags().BoolVarP(&NCFlag, "ncompleted", "n", false, "marks tasks as Not completed")
 
 	// Here you will define your flags and configuration settings.
 

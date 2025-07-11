@@ -4,24 +4,15 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
 // updateTaskCmd represents the updateTask command
 var updateTaskCmd = &cobra.Command{
 	Use:   "updateTask",
-	Short: "Update a task's name or ",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("updateTask called")
-	},
+	Short: "Update a task's description or status",
+	Long: `Update a task's description or status.
+	If the -d (description) flag is present, the selected task's description will be updated instead`,
 }
 
 func init() {
