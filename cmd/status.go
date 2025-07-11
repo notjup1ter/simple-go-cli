@@ -49,7 +49,12 @@ var statusCmd = &cobra.Command{
 		}
 
 
-		f, tasks := getFileAndTasks()
+		
+		f, tasks, err := getFileAndTasks()
+		if err != nil {
+			fmt.Println("could not get the file and its tasks.")
+		}
+		defer f.Close()
 
 		for rowIndex := range tasks {
 			if rowIndex == inputInt && NCFlag {

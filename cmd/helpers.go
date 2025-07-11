@@ -25,14 +25,13 @@ func InitializeCSV() {
 		defer file.Close()
 }
 
-func getFileAndTasks() (*os.File,[][]string) {
+func getFileAndTasks() (*os.File,[][]string, error) {
 	f, err := os.OpenFile(GetFilePath(), os.O_RDWR, 0644)
 		if err != nil {
 			fmt.Println("Could not open file.")
 			os.Exit(1)
 		}
-		defer f.Close()
-
+		
 		reader := csv.NewReader(f)
 		reader.FieldsPerRecord = 3
 		tasks, err := reader.ReadAll()
@@ -41,5 +40,5 @@ func getFileAndTasks() (*os.File,[][]string) {
 			os.Exit(1)
 		}
 
-		return f, tasks
+		return f, tasks, err
 }
