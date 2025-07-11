@@ -49,20 +49,7 @@ var statusCmd = &cobra.Command{
 		}
 
 
-		f, err := os.OpenFile(GetFilePath(), os.O_RDWR, 0644)
-		if err != nil {
-			fmt.Println("Could not open file.")
-			return
-		}
-		defer f.Close()
-
-		reader := csv.NewReader(f)
-		reader.FieldsPerRecord = 3
-		tasks, err := reader.ReadAll()
-		if err != nil {
-			fmt.Println("Could not read the file")
-			return
-		}
+		f, tasks := getFileAndTasks()
 
 		for rowIndex := range tasks {
 			if rowIndex == inputInt && NCFlag {
