@@ -47,7 +47,10 @@ var descriptionCmd = &cobra.Command{
 		}
 
 		//overwriting the file 
-		ClearCSV()
+		f, err = ClearCSV()
+		if err != nil {
+			fmt.Println("Could not clear the CSV file.")
+		}
 
 		writer := csv.NewWriter(f)
 		err = writer.WriteAll(tasks)
@@ -55,7 +58,6 @@ var descriptionCmd = &cobra.Command{
 			fmt.Println("Could not update task description")
 			return
 		}
-		writer.Flush()
 		f.Close()
 		fmt.Println("successfully updated task description ")
 		PrintList()

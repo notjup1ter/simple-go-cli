@@ -41,6 +41,7 @@ var addTaskCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println("could not get file and its tasks.")
 		}
+		//TODO: change code here to do an explicit close from the read and open for the write
 
 		id := strconv.Itoa(len(tasks) + 1)
 

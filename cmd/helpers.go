@@ -40,17 +40,19 @@ func getFileAndTasks() (*os.File,[][]string, error) {
 		tasks, err := reader.ReadAll()
 		if err != nil {
 			fmt.Println("Could not read the file")
+
 			os.Exit(1)
 		}
 
 		return f, tasks, err
 }
 
-func ClearCSV() {
-	err := os.Truncate(GetFilePath(), 0)
+func ClearCSV() (*os.File, error) {
+	f, err := os.OpenFile(GetFilePath(), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
-		fmt.Println("could not clear file.")
+		return nil, err
 	}
+	return f, nil
 }
 
 func PrintList() {

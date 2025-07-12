@@ -64,7 +64,10 @@ var statusCmd = &cobra.Command{
 		}
 
 		//overwriting the file 
-		ClearCSV()
+		f, err = ClearCSV()
+		if err != nil {
+			fmt.Println("Could not clear the CSV file.")
+		}
 
 		writer := csv.NewWriter(f)
 		err = writer.WriteAll(tasks)
@@ -72,8 +75,6 @@ var statusCmd = &cobra.Command{
 			fmt.Println("Could not update task status")
 			return
 		}
-		
-		writer.Flush()
 		f.Close()
 		fmt.Println("successfully updated task's status!")
 
