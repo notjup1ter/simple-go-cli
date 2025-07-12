@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/olekukonko/tablewriter"
 )
 
 func GetFilePath() string {
@@ -49,4 +51,18 @@ func ClearCSV() {
 	if err != nil {
 		fmt.Println("could not clear file.")
 	}
+}
+
+func PrintList() {
+	//gathering data
+	f, tasks, err := getFileAndTasks()
+	if err != nil {
+		fmt.Println("Could not get file and its tasks.")
+	}
+	defer f.Close()
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.Header([]string{"ID", "Description", "Status", "Date Added"})
+	table.Bulk(tasks)
+	table.Render()
 }

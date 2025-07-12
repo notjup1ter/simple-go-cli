@@ -55,8 +55,11 @@ var descriptionCmd = &cobra.Command{
 			fmt.Println("Could not update task description")
 			return
 		}
-		defer writer.Flush()
-		fmt.Println("successfully updated task description")
+		writer.Flush()
+		f.Close()
+		fmt.Println("successfully updated task description ")
+		PrintList()
+
 	},
 }
 

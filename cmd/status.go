@@ -54,7 +54,6 @@ var statusCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println("could not get the file and its tasks.")
 		}
-		defer f.Close()
 
 		for rowIndex := range tasks {
 			if rowIndex == inputInt - 1 && NCFlag {
@@ -73,8 +72,12 @@ var statusCmd = &cobra.Command{
 			fmt.Println("Could not update task status")
 			return
 		}
-		defer writer.Flush()
+		
+		writer.Flush()
+		f.Close()
 		fmt.Println("successfully updated task's status!")
+
+		PrintList()
 
 	},
 }

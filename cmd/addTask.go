@@ -41,7 +41,6 @@ var addTaskCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println("could not get file and its tasks.")
 		}
-		defer f.Close()
 
 		id := strconv.Itoa(len(tasks) + 1)
 
@@ -56,8 +55,12 @@ var addTaskCmd = &cobra.Command{
 			fmt.Println("Could not write the task to the csv file.")
 			return
 		}
-		defer writer.Flush()
+
+		writer.Flush() 
+		f.Close()
 		fmt.Println("successfully added task!")
+
+		PrintList()
 	},
 }
 
