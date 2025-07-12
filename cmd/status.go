@@ -36,7 +36,7 @@ var statusCmd = &cobra.Command{
 
 		//gather user input
 		inputReader := bufio.NewReader(os.Stdin)
-		fmt.Println("Enter the number of the task you would like to update below:")
+		fmt.Println("Enter the id of the task you would like to update below:")
 		input, err := inputReader.ReadString('\n')
 		input = strings.TrimSpace(input)
 		if err != nil {
@@ -57,15 +57,15 @@ var statusCmd = &cobra.Command{
 		defer f.Close()
 
 		for rowIndex := range tasks {
-			if rowIndex == inputInt && NCFlag {
-				tasks[rowIndex][1] = "not completed"
-			} else if rowIndex == inputInt && CFlag {
-				tasks[rowIndex][1] = "completed ✅"
+			if rowIndex == inputInt - 1 && NCFlag {
+				tasks[rowIndex][2] = "not completed"
+			} else if rowIndex == inputInt - 1 && CFlag {
+				tasks[rowIndex][2] = "completed ✅"
 			}
 		}
 
 		//overwriting the file 
-		InitializeCSV()
+		ClearCSV()
 
 		writer := csv.NewWriter(f)
 		err = writer.WriteAll(tasks)

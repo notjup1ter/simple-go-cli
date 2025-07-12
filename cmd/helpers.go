@@ -18,11 +18,12 @@ func GetFilePath() string {
 }
 
 func InitializeCSV() {
-	file, err := os.OpenFile(GetFilePath(), os.O_RDWR| os.O_CREATE, 0644)
+	file, err := os.OpenFile(GetFilePath(), os.O_RDWR | os.O_CREATE, 0644)
 		if err != nil {
 			fmt.Println("Error while trying to create file.")
 		}
 		defer file.Close()
+
 }
 
 func getFileAndTasks() (*os.File,[][]string, error) {
@@ -31,9 +32,9 @@ func getFileAndTasks() (*os.File,[][]string, error) {
 			fmt.Println("Could not open file.")
 			os.Exit(1)
 		}
-		
+
 		reader := csv.NewReader(f)
-		reader.FieldsPerRecord = 3
+		reader.FieldsPerRecord = 4
 		tasks, err := reader.ReadAll()
 		if err != nil {
 			fmt.Println("Could not read the file")
@@ -41,4 +42,11 @@ func getFileAndTasks() (*os.File,[][]string, error) {
 		}
 
 		return f, tasks, err
+}
+
+func ClearCSV() {
+	err := os.Truncate(GetFilePath(), 0)
+	if err != nil {
+		fmt.Println("could not clear file.")
+	}
 }

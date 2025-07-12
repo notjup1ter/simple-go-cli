@@ -37,15 +37,16 @@ var addTaskCmd = &cobra.Command{
 	 	y, m , d := time.Now().Date()
 		curr_date :=  strconv.Itoa(y) + " " + m.String() + " " + strconv.Itoa(d)
 
-		taskList := []string{task, "not completed", curr_date}
-
-		//O_append means all new writes are appened at the end, O_WRONLY is write-only" 
-		f, err := os.OpenFile(GetFilePath(), os.O_APPEND|os.O_WRONLY, 0644)
+		f, tasks, err := getFileAndTasks()
 		if err != nil {
-			fmt.Println("Could not open file at" + GetFilePath())
-			return
+			fmt.Println("could not get file and its tasks.")
 		}
 		defer f.Close()
+
+		id := strconv.Itoa(len(tasks) + 1)
+
+		taskList := []string{id, task, "not completed", curr_date}
+
 
 
 		writer := csv.NewWriter(f)

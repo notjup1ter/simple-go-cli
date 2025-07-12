@@ -4,6 +4,11 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+
+	"os"
+
+	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +17,17 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all of your tasks",
 	Run: func(cmd *cobra.Command, args []string) {
-		
+		//gathering data
+		f, tasks, err := getFileAndTasks()
+		if err != nil {
+			fmt.Println("Could not get file and its tasks.")
+		}
+		defer f.Close()
+
+		table := tablewriter.NewWriter(os.Stdout)
+		table.Header([]string{"ID", "Description", "Status", "Date Added"})
+		table.Bulk(tasks)
+		table.Render()
 	},
 }
 
